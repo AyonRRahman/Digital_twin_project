@@ -23,17 +23,28 @@ class DigitalTwinDataset(Dataset):
                     -screw_2
                     -screw_3
     '''
-    def __init__(self,root_dir, sample_length=500, device = device):
+    def __init__(self,root_dir, sample_length=500, device = device, shuffle=True):
 
         super(DigitalTwinDataset, self).__init__()
         self.root_dir = root_dir
         self.sample_length = sample_length
         self.device = device
+        self.shuffle = shuffle
 
         self.files = self._get_files()
         self.samples = self._get_samples()
 
         self.data, self.labels = self._get_data()
+        if self.shuffle:
+            
+            # Shuffle the data and labels using the same permutation
+            if len(data) != len(labels):
+                raise ValueError("Data and labels must have the same length.")
+            
+            self.permutation = torch.randperm(len(data))
+            self.data = [data[i] for i in self.permutation]
+            self.labels = [labels[i] for i in self.permutation]
+
 
     def _get_files(self):
         root_dir=self.root_dir
@@ -53,7 +64,7 @@ class DigitalTwinDataset(Dataset):
         return files
 
     def _get_samples(self):
-        no_screw_files = self.files['no_screw']
+        
         
         samples = {x:[] for x in self.files.keys()}
         
@@ -115,5 +126,5 @@ class DigitalTwinDataset(Dataset):
         return sample
     
 if __name__=='__main__':
-    Trainset = DigitalTwinDataset('new_data/Train/')
+    Trainset = DigitalTwinDataset('/home/ayon/Desktop/Digital Twin data/new_data/Train/')
     print(Trainset[0:5] )
