@@ -14,7 +14,17 @@ else:
 
 
 class DigitalTwinDataset(Dataset):
+    '''
+        the dataset classs takes a directory with following structure:
+        root_dir:
+                -no_screw
+                -with_screw
+                    -screw_1
+                    -screw_2
+                    -screw_3
+    '''
     def __init__(self,root_dir, sample_length=500, device = device):
+
         super(DigitalTwinDataset, self).__init__()
         self.root_dir = root_dir
         self.sample_length = sample_length
