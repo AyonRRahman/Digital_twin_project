@@ -74,12 +74,12 @@ class DigitalTwinDataset(Dataset):
             for files in self.files[folder]:
                 
                 df = pd.read_csv(files)
-                x1 = torch.tensor(df['X_1 (Mean)']).reshape(-1,1)
-                y1 = torch.tensor(df['Y_1 (Mean)']).reshape(-1,1)
-                x2 = torch.tensor(df['X_2 (Mean)']).reshape(-1,1)
-                y2 = torch.tensor(df['Y_2 (Mean)']).reshape(-1,1)
-                x3 = torch.tensor(df['X_3 (Mean)']).reshape(-1,1)
-                y3 = torch.tensor(df['Y_3 (Mean)']).reshape(-1,1)
+                x1 = torch.tensor(df['X_1 (Mean)'], dtype=torch.float64).reshape(-1,1)
+                y1 = torch.tensor(df['Y_1 (Mean)'], dtype=torch.float64).reshape(-1,1)
+                x2 = torch.tensor(df['X_2 (Mean)'], dtype=torch.float64).reshape(-1,1)
+                y2 = torch.tensor(df['Y_2 (Mean)'], dtype=torch.float64).reshape(-1,1)
+                x3 = torch.tensor(df['X_3 (Mean)'], dtype=torch.float64).reshape(-1,1)
+                y3 = torch.tensor(df['Y_3 (Mean)'], dtype=torch.float64).reshape(-1,1)
                 
                 data = torch.cat((x1,y1,x2,y2,x3,y3), 1)
                 
@@ -97,13 +97,13 @@ class DigitalTwinDataset(Dataset):
         for label in self.samples:
             for labeled_data in self.samples[label]:
                 if label=='no_screw':
-                    labels.append(torch.tensor(0))
+                    labels.append(torch.tensor(0,  dtype=torch.float64))
                 elif label=='screw_2':
-                    labels.append(torch.tensor(2))
+                    labels.append(torch.tensor(2, dtype=torch.float64))
                 elif label=='screw_1':
-                    labels.append(torch.tensor(1))
+                    labels.append(torch.tensor(1, dtype=torch.float64))
                 else:
-                    labels.append(torch.tensor(3))
+                    labels.append(torch.tensor(3, dtype=torch.float64))
                 
                 data.append(labeled_data)
                 
