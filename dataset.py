@@ -34,7 +34,7 @@ class DigitalTwinDataset(Dataset):
         self.files = self._get_files()
         self.samples = self._get_samples()
 
-        self.data, self.labels = self._get_data()
+        data, labels = self._get_data()
         if self.shuffle:
             
             # Shuffle the data and labels using the same permutation
