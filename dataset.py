@@ -130,6 +130,34 @@ class DigitalTwinDataset(Dataset):
         return sample
 
 
+
+class TestSet(Dataset):
+    def __init__(self, data_dict):
+
+        super(TestSet, self).__init__()
+        self.data_dict = data_dict
+        self.data, self.labels = self._get_data()
+        print(f"Dataset with {len(self.data)} data and {len(self.labels)} label")
+    
+    def _get_data(self):
+        data = self.data_dict['data']
+        label = self.data_dict['label']
+        return data, label
+    
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+
+        sample = {
+            'data': self.data[idx],
+            'label': self.labels[idx]
+        }
+
+        return sample
+
 if __name__ == '__main__':
     Trainset = DigitalTwinDataset(
         '/home/ayon/Desktop/Digital Twin data/new_data/Train/')
